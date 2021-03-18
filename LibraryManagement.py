@@ -3,6 +3,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+import datetime
 
 class Database():
     def __init__(self):
@@ -10,7 +11,7 @@ class Database():
         self.cursor = self.con.cursor()
 
     def get_all_books(self, available_only, sort_ind, keyword):
-        query = 'select B.isbn, B.title, B.author, B.genre from Books B'
+        query = 'select B.isbn, B.title, B.author, B.genre, B.bid from Books B'
         if available_only:
             query += ' where B.available=1'
         if sort_ind == 1:
@@ -25,10 +26,10 @@ class Database():
     
     def check_credentials(self, username, password):
         self.cursor.execute('select password from users where username=\'%s\'' % username)
-        result = self.cursor.fetchall()
+        result = self.cursor.fetchall()[0][0]
         if result == []:
             return False
-        elif result[0] == password:
+        elif result == password:
             return True
         
     def create_account(self, u, p, t, n, e):
@@ -37,23 +38,35 @@ class Database():
              VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')' % (u, p, t, n, e))
 
     def check_in_book(self, bid):
-        self.cursor.execute('delete from checkedOut where bid=%d' % bid)
+        self.cursor.execute('delete from checkedOut where bid=%d' % int(bid))
+        self.cursor.execute('update books set available=1 where bid=\'%s\'' % bid)
     
     def check_out_book(self, bid, username):
-        due_date = 'date(\'now\', \'+14 days\')'
-        self.cursor.execute('insert into checkedOut (bid, username, dueDate) values (%d, \'%s\', \'%s\'' % (bid, username, due_date))
+        due_date = str(datetime.datetime.today() + datetime.timedelta(days=14))[:10]
+        self.cursor.execute('insert into checkedOut (bid, username, dueDate) values (%d, \'%s\', \'%s\')' % (int(bid), username, due_date))
+        self.cursor.execute('update books set available=0 where bid=\'%s\'' % bid)
+    
+class CheckOutBook(QDialog):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('CheckOutDialog.ui', self)
+        self.check_out_bt.clicked.connect(self.check_out_book)
+
+    def check_out_book(self):
+        database.check_out_book(self.bid_le.text(), self.username_le.text())
+        self.close()
 
 class LoginPage(QDialog):
-    def __init__(self, ):
+    def __init__(self):
         super().__init__()
         uic.loadUi('LoginDialog.ui', self)
         self.sign_in_bt.clicked.connect(self.sign_in)
         self.warning_lbl.hide()
         self.valid = False
 
-    """def closeEvent(self, event):
+    def closeEvent(self, event):
         if not self.valid:
-            sys.exit(app.exec_())"""
+            sys.exit(app.exec_())
 
     def sign_in(self):
         self.valid = database.check_credentials(self.username_le.text(), self.password_le.text())
@@ -75,6 +88,7 @@ class CreateAccount(QDialog):
         n = self.name_le.text()
         e = self.email_le.text()
         database.create_account(u, p, t, n, e)
+        self.close()
 
 class Homepage(QMainWindow):
     def __init__(self):
@@ -126,7 +140,7 @@ class Homepage(QMainWindow):
         books = database.get_all_books(self.available_books_cb.isChecked(), self.sort_combo.currentIndex(), self.search_bar.text())
         for i in range(0, len(books)):
             self.tableWidget.insertRow(i)
-            for j in range(0, 4):
+            for j in range(0, 5):
                 item = QTableWidgetItem(str(books[i][j]))
                 item.setFlags(Qt.ItemIsEnabled)
                 self.tableWidget.setItem(i, j, item)
@@ -143,7 +157,8 @@ class Homepage(QMainWindow):
             database.check_in_book(bid)
 
     def check_out_book(self):
-        pass
+        dlg = CheckOutBook()
+        dlg.exec_()
 
     def create_new_account(self):
         dlg = CreateAccount()

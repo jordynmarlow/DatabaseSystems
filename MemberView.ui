@@ -133,7 +133,7 @@
        <number>4</number>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>250</number>
+       <number>225</number>
       </attribute>
       <attribute name="verticalHeaderVisible">
        <bool>false</bool>
@@ -156,6 +156,11 @@
       <column>
        <property name="text">
         <string>genre</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Book ID</string>
        </property>
       </column>
      </widget>
