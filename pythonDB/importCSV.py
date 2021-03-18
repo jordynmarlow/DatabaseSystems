@@ -10,6 +10,10 @@ cur = con.cursor()
 bookData = pd.read_csv('bookData.csv')
 #Write the data to books table
 cur.execute('drop table books')
+<<<<<<< Updated upstream
+=======
+cur.execute('create table books (title text, author text, genre text, duration int, year int, available int, isbn int, bid int auto_increment)')
+>>>>>>> Stashed changes
 bookData.to_sql('books', con, if_exists = 'replace', index=False)
 
 #Create cursor object
