@@ -111,6 +111,39 @@
        </property>
       </item>
      </widget>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>1091</width>
+        <height>571</height>
+       </rect>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>270</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>ISBN</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>title</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>author</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>genre</string>
+       </property>
+      </column>
+     </widget>
     </widget>
     <widget class="QWidget" name="page_2"/>
    </widget>

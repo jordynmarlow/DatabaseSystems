@@ -89,16 +89,6 @@
      <string>available books only</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="sort_combo">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>50</y>
-      <width>171</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
@@ -131,6 +121,31 @@
       <string>genre</string>
      </property>
     </column>
+   </widget>
+   <widget class="QComboBox" name="sort_combo">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>50</y>
+      <width>171</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Sort by...</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sort by title (A-&gt;Z)...</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sort by title (Z-&gt;A)...</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
