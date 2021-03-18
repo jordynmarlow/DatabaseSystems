@@ -9,7 +9,7 @@ class Database():
         self.con = sqlite3.connect('pythonDB/library.db')
         self.cursor = self.con.cursor()
 
-    def get_all_books(self, available_only, sort_ind):
+    def get_all_books(self, available_only, sort_ind, keyword):
         query = 'select B.isbn, B.title, B.author, B.genre from Books B'
         if available_only:
             query += ' where B.available=1'
@@ -17,6 +17,8 @@ class Database():
             query += ' order by B.title ASC'
         elif sort_ind == 1:
             query += ' order by B.title DESC'
+        if len(keyword) > 0:
+            query = 'select * from (%s) where (isbn like \'%s\' or title like \'%s\' or author like \'%s\' or genre like \'%s\')' % (query, keyword, keyword, keyword, keyword)
         self.cursor.execute(query)
         return self.cursor.fetchall()
 
@@ -47,7 +49,8 @@ class Homepage(QMainWindow):
         self.new_account_bt.clicked.connect(self.create_new_account)
     
     def populate_table(self):
-        books = self.database.get_all_books(self.available_books_cb.isChecked(), self.sort_combo.currentIndex())
+        self.tableWidget.setRowCount(0)
+        books = self.database.get_all_books(self.available_books_cb.isChecked(), self.sort_combo.currentIndex(), self.search_bar.text())
         for i in range(0, len(books)):
             self.tableWidget.insertRow(i)
             for j in range(0, 4):

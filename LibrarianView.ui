@@ -125,7 +125,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>Search by keyword...</string>
+     <string>Search by ISBN, title, author, or genre...</string>
     </property>
    </widget>
    <widget class="QPushButton" name="search_bt">
