@@ -1,9 +1,9 @@
-import sys, sqlite3
+# jordyn
+import sys, sqlite3, datetime
 from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-import datetime
 
 class Database():
     def __init__(self):
@@ -46,6 +46,13 @@ class Database():
         self.cursor.execute('insert into checkedOut (bid, username, dueDate) values (%d, \'%s\', \'%s\')' % (int(bid), username, due_date))
         self.cursor.execute('update books set available=0 where bid=\'%s\'' % bid)
     
+    def get_user_type(self, username):
+        self.cursor.execute('select type from users where username=\'%s\'' % username)
+        return self.cursor.fetchall()[0][0]
+    
+    def delete_book(self, bid):
+        self.cursor.execute('delete from books where bid=%d' % int(bid))
+    
 class CheckOutBook(QDialog):
     def __init__(self):
         super().__init__()
@@ -57,12 +64,13 @@ class CheckOutBook(QDialog):
         self.close()
 
 class LoginPage(QDialog):
-    def __init__(self):
+    def __init__(self, homepage):
         super().__init__()
         uic.loadUi('LoginDialog.ui', self)
         self.sign_in_bt.clicked.connect(self.sign_in)
         self.warning_lbl.hide()
         self.valid = False
+        self.homepage = homepage
 
     def closeEvent(self, event):
         if not self.valid:
@@ -71,6 +79,7 @@ class LoginPage(QDialog):
     def sign_in(self):
         self.valid = database.check_credentials(self.username_le.text(), self.password_le.text())
         if self.valid:
+            self.homepage.username = self.username_le.text()
             self.close()
         else:
             self.warning_lbl.show()
@@ -97,14 +106,20 @@ class Homepage(QMainWindow):
     
     def sign_in(self):
         self.hide()
-        login_page = LoginPage()
+        login_page = LoginPage(self)
         login_page.exec_()
-        # if member
-        #uic.loadUi('MemberView.ui', self)
-        #self.member_widget_interactions()
-        # else 
-        uic.loadUi('LibrarianView.ui', self)
-        self.librarian_widget_interactions()
+        user_type = database.get_user_type(self.username)
+        if user_type == 'Member':
+            uic.loadUi('MemberView.ui', self)
+            self.member_widget_interactions()
+        else: 
+            uic.loadUi('LibrarianView.ui', self)
+            self.librarian_widget_interactions()
+            if user_type == 'Librarian':
+                self.new_account_bt.hide()
+                self.add_book_bt.hide()
+                self.edit_book_bt.hide()
+                self.delete_book_bt.hide()
         self.widget_interactions()
         self.populate_table()
         self.show()
@@ -130,10 +145,10 @@ class Homepage(QMainWindow):
     def librarian_widget_interactions(self):
         self.check_in_bt.clicked.connect(self.check_in_book)
         self.check_out_bt.clicked.connect(self.check_out_book)
-        # if admin
         self.new_account_bt.clicked.connect(self.create_new_account)
-        # else
-        #   self.new_account_bt.hide()
+        self.add_book_bt.clicked.connect(self.add_book)
+        self.edit_book_bt.clicked.connect(self.edit_book)
+        self.delete_book_bt.clicked.connect(self.delete_book)
     
     def populate_table(self):
         self.tableWidget.setRowCount(0)
@@ -150,6 +165,17 @@ class Homepage(QMainWindow):
 
     def show_profile_page(self):
         self.stackedWidget.setCurrentIndex(1)
+    
+    def add_book(self):
+        pass
+
+    def edit_book(self):
+        pass
+
+    def delete_book(self):
+        bid, ok = QInputDialog.getText(self, 'Delete book', 'Enter the book ID number: ')
+        if ok:
+            database.delete_book(bid)
 
     def check_in_book(self):
         bid, ok = QInputDialog.getText(self, 'Check in book', 'Enter the book ID number: ')
