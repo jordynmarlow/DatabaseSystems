@@ -39,6 +39,12 @@
     <property name="text">
      <string>Profile</string>
     </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="sign_out_bt">
     <property name="geometry">
@@ -123,6 +129,9 @@
         <height>571</height>
        </rect>
       </property>
+      <property name="columnCount">
+       <number>4</number>
+      </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
        <number>250</number>
       </attribute>
@@ -174,6 +183,9 @@
         <height>381</height>
        </rect>
       </property>
+      <property name="columnCount">
+       <number>5</number>
+      </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
        <number>250</number>
       </attribute>
@@ -198,6 +210,11 @@
       <column>
        <property name="text">
         <string>genre</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Due Date</string>
        </property>
       </column>
      </widget>
