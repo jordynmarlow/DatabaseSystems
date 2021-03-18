@@ -22,6 +22,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="inputMask">
+    <string>Username</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="password_le">
    <property name="geometry">
@@ -31,6 +34,9 @@
      <width>221</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="inputMask">
+    <string>Password</string>
    </property>
   </widget>
   <widget class="QPushButton" name="sign_in_bt">
@@ -60,6 +66,30 @@
    </property>
    <property name="text">
     <string>Invalid username or password</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>20</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+   <property name="text">
+    <string>LOGIN</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
