@@ -30,8 +30,12 @@ class Homepage(QMainWindow):
         # else 
             #uic.loadUi('LibrarianView.ui', self)
             #self.librarian_widget_interactions()
+        self.widget_interactions()
         self.database = Database()
         self.populate_table()
+    
+    def widget_interactions(self):
+        self.search_bt.clicked.connect(self.populate_table)
 
     def member_widget_interactions(self):
         self.home_bt.clicked.connect(self.show_home_page)
@@ -44,11 +48,12 @@ class Homepage(QMainWindow):
     
     def populate_table(self):
         books = self.database.get_all_books(self.available_books_cb.isChecked(), self.sort_combo.currentIndex())
-        for book in books:
-            print(book)
-            row = self.tableWidget.rowCount()
-            for i in range(0, 4):
-                self.tableWidget.setItem(row, i, QTableWidgetItem(book[i]))
+        for i in range(0, len(books)):
+            self.tableWidget.insertRow(i)
+            for j in range(0, 4):
+                item = QTableWidgetItem(str(books[i][j]))
+                item.setFlags(Qt.ItemIsEnabled)
+                self.tableWidget.setItem(i, j, item)
 
     def show_home_page(self):
         self.stackedWidget.setCurrentIndex(0)

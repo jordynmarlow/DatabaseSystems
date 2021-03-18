@@ -66,7 +66,7 @@
      <widget class="QCheckBox" name="available_books_cb">
       <property name="geometry">
        <rect>
-        <x>530</x>
+        <x>550</x>
         <y>10</y>
         <width>131</width>
         <height>22</height>
@@ -84,6 +84,9 @@
         <width>441</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Search by keyword...</string>
       </property>
      </widget>
      <widget class="QComboBox" name="sort_combo">
@@ -121,7 +124,10 @@
        </rect>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>270</number>
+       <number>250</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
       </attribute>
       <column>
        <property name="text">
@@ -143,6 +149,19 @@
         <string>genre</string>
        </property>
       </column>
+     </widget>
+     <widget class="QPushButton" name="search_bt">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>10</y>
+        <width>51</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="page_2"/>
