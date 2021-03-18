@@ -83,35 +83,11 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>10</y>
-     <width>151</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>16</pointsize>
-    </font>
-   </property>
-   <property name="lineWidth">
-    <number>1</number>
-   </property>
-   <property name="text">
-    <string>LOGIN</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>60</y>
+     <y>50</y>
      <width>47</width>
      <height>13</height>
     </rect>
@@ -120,7 +96,7 @@
     <string>Username</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
      <x>60</x>

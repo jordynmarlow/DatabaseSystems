@@ -36,15 +36,28 @@ class Database():
         self.cursor.execute('insert into users (username, password, type, name, email)\
              VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')' % (u, p, t, n, e))
 
+    def check_in_book(self, bid):
+        self.cursor.execute('delete from checkedOut where bid=%d' % bid)
+    
+    def check_out_book(self, bid, username):
+        due_date = 'date(\'now\', \'+14 days\')'
+        self.cursor.execute('insert into checkedOut (bid, username, dueDate) values (%d, \'%s\', \'%s\'' % (bid, username, due_date))
+
 class LoginPage(QDialog):
-    def __init__(self):
+    def __init__(self, ):
         super().__init__()
         uic.loadUi('LoginDialog.ui', self)
         self.sign_in_bt.clicked.connect(self.sign_in)
         self.warning_lbl.hide()
+        self.valid = False
+
+    """def closeEvent(self, event):
+        if not self.valid:
+            sys.exit(app.exec_())"""
 
     def sign_in(self):
-        if database.check_credentials(self.username_le.text(), self.password_le.text()):
+        self.valid = database.check_credentials(self.username_le.text(), self.password_le.text())
+        if self.valid:
             self.close()
         else:
             self.warning_lbl.show()
@@ -125,7 +138,9 @@ class Homepage(QMainWindow):
         self.stackedWidget.setCurrentIndex(1)
 
     def check_in_book(self):
-        pass
+        bid, ok = QInputDialog.getText(self, 'Check in book', 'Enter the book ID number: ')
+        if ok:
+            database.check_in_book(bid)
 
     def check_out_book(self):
         pass
@@ -136,8 +151,6 @@ class Homepage(QMainWindow):
 
 app = QApplication(sys.argv)
 database = Database()
-# member gets MemberHomepage
-# librarian/admin get LibrarianHomepage
 window = Homepage()
 window.show()
 sys.exit(app.exec_())

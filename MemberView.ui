@@ -62,7 +62,7 @@
       <height>621</height>
      </rect>
     </property>
-    <widget class="QWidget" name="page">
+    <widget class="QWidget" name="homepage">
      <widget class="QCheckBox" name="available_books_cb">
       <property name="geometry">
        <rect>
@@ -164,7 +164,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_2"/>
+    <widget class="QWidget" name="profile"/>
    </widget>
    <widget class="QLabel" name="warning_lbl">
     <property name="geometry">
