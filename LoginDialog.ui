@@ -16,7 +16,7 @@
   <widget class="QLineEdit" name="username_le">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>80</x>
      <y>80</y>
      <width>131</width>
      <height>20</height>
