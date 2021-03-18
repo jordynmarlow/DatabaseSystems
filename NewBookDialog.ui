@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLineEdit" name="isbn">
+  <widget class="QLineEdit" name="isbn_le">
    <property name="geometry">
     <rect>
      <x>48</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="title">
+  <widget class="QLineEdit" name="title_le">
    <property name="geometry">
     <rect>
      <x>48</x>
@@ -33,7 +33,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="username_le">
+  <widget class="QLineEdit" name="author_le">
    <property name="geometry">
     <rect>
      <x>48</x>
@@ -43,7 +43,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="genre">
+  <widget class="QLineEdit" name="genre_le">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -134,7 +134,7 @@
     <string>Year</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="year">
+  <widget class="QLineEdit" name="year_le">
    <property name="geometry">
     <rect>
      <x>50</x>
