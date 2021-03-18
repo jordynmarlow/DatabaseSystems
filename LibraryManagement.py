@@ -38,13 +38,17 @@ class Database():
              VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')' % (u, p, t, n, e))
 
     def check_in_book(self, bid):
-        self.cursor.execute('delete from checkedOut where bid=%d' % int(bid))
-        self.cursor.execute('update books set available=1 where bid=\'%s\'' % bid)
+        self.cursor.execute('select * from books where bid=\'%s\' and available=0' % bid)
+        if len(self.cursor.fetchall()) > 0:
+            self.cursor.execute('delete from checkedOut where bid=%d' % int(bid))
+            self.cursor.execute('update books set available=1 where bid=\'%s\'' % bid)
     
     def check_out_book(self, bid, username):
-        due_date = str(datetime.datetime.today() + datetime.timedelta(days=14))[:10]
-        self.cursor.execute('insert into checkedOut (bid, username, dueDate) values (%d, \'%s\', \'%s\')' % (int(bid), username, due_date))
-        self.cursor.execute('update books set available=0 where bid=\'%s\'' % bid)
+        self.cursor.execute('select * from books where bid=\'%s\' and available=1' % bid)
+        if len(self.cursor.fetchall()) > 0:
+            due_date = str(datetime.datetime.today() + datetime.timedelta(days=14))[:10]
+            self.cursor.execute('insert into checkedOut (bid, username, dueDate) values (%d, \'%s\', \'%s\')' % (int(bid), username, due_date))
+            self.cursor.execute('update books set available=0 where bid=\'%s\'' % bid)
     
     def get_user_type(self, username):
         self.cursor.execute('select type from users where username=\'%s\'' % username)
@@ -53,9 +57,9 @@ class Database():
     def delete_book(self, bid):
         self.cursor.execute('delete from books where bid=%d' % int(bid))
 
-    def add_book(self, t, a, g, y, i, b):
-        self.cursor.execute('insert into books (title, author, genre, year, available, isbn, bd) values\
-             (\'%s\', \'%s\', \'%s\', %d, 1, %d, %d)' % (t, a, g, y, i, b))
+    def add_book(self, t, a, g, y, i):
+        self.cursor.execute('insert into books (title, author, genre, year, available, isbn) values\
+             (\'%s\', \'%s\', \'%s\', %d, 1, %d)' % (t, a, g, y, i))
     
 class CheckOutBook(QDialog):
     def __init__(self):
@@ -110,7 +114,13 @@ class AddBook(QDialog):
         self.create_book_bt.clicked.connect(self.create_book)
 
     def create_book(self):
-        database.add_book()
+        i = self.isbn_le.text()
+        t = self.title_le.text()
+        a = self.author_le.text()
+        g = self.genre_le.text()
+        y = self.year_le.text()
+        database.add_book(t, a, g, int(y), int(i))
+        self.close()
 
 class Homepage(QMainWindow):
     def __init__(self):
@@ -178,7 +188,8 @@ class Homepage(QMainWindow):
         self.stackedWidget.setCurrentIndex(1)
     
     def add_book(self):
-        pass
+        dlg = AddBook()
+        dlg.exec_()
 
     def delete_book(self):
         bid, ok = QInputDialog.getText(self, 'Delete book', 'Enter the book ID number: ')
