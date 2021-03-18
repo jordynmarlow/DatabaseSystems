@@ -52,6 +52,10 @@ class Database():
     
     def delete_book(self, bid):
         self.cursor.execute('delete from books where bid=%d' % int(bid))
+
+    def add_book(self, t, a, g, y, i, b):
+        self.cursor.execute('insert into books (title, author, genre, year, available, isbn, bd) values\
+             (\'%s\', \'%s\', \'%s\', %d, 1, %d, %d)' % (t, a, g, y, i, b))
     
 class CheckOutBook(QDialog):
     def __init__(self):
@@ -99,6 +103,15 @@ class CreateAccount(QDialog):
         database.create_account(u, p, t, n, e)
         self.close()
 
+class AddBook(QDialog):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('NewBookDialog.ui', self)
+        self.create_book_bt.clicked.connect(self.create_book)
+
+    def create_book(self):
+        database.add_book()
+
 class Homepage(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -118,7 +131,6 @@ class Homepage(QMainWindow):
             if user_type == 'Librarian':
                 self.new_account_bt.hide()
                 self.add_book_bt.hide()
-                self.edit_book_bt.hide()
                 self.delete_book_bt.hide()
         self.widget_interactions()
         self.populate_table()
@@ -147,7 +159,6 @@ class Homepage(QMainWindow):
         self.check_out_bt.clicked.connect(self.check_out_book)
         self.new_account_bt.clicked.connect(self.create_new_account)
         self.add_book_bt.clicked.connect(self.add_book)
-        self.edit_book_bt.clicked.connect(self.edit_book)
         self.delete_book_bt.clicked.connect(self.delete_book)
     
     def populate_table(self):
@@ -167,9 +178,6 @@ class Homepage(QMainWindow):
         self.stackedWidget.setCurrentIndex(1)
     
     def add_book(self):
-        pass
-
-    def edit_book(self):
         pass
 
     def delete_book(self):

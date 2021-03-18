@@ -184,23 +184,10 @@
      <string>Add Book</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="edit_book_bt">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>10</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Edit Book</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="delete_book_bt">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>370</x>
       <y>10</y>
       <width>75</width>
       <height>23</height>
