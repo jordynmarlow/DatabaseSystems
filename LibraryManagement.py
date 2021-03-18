@@ -41,10 +41,13 @@ class LoginPage(QDialog):
         super().__init__()
         uic.loadUi('LoginDialog.ui', self)
         self.sign_in_bt.clicked.connect(self.sign_in)
+        self.warning_lbl.hide()
 
     def sign_in(self):
         if database.check_credentials(self.username_le.text(), self.password_le.text()):
             self.close()
+        else:
+            self.warning_lbl.show()
 
 class CreateAccount(QDialog):
     def __init__(self):

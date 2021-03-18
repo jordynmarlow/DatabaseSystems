@@ -172,8 +172,11 @@
       <x>450</x>
       <y>10</y>
       <width>251</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: red;</string>
     </property>
     <property name="text">
      <string/>
