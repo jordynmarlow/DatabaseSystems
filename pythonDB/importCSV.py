@@ -1,14 +1,19 @@
-import csv, sqlite3
+import sqlite3
+import pandas as pd
 
-con = sqlite3.connect('library.db')
+#Connect to SQLite database
+con = sqlite3.connect(r'library.db')
+#Create cursor object
 cur = con.cursor()
-cur.execute("DROP TABLE books")
-cur.execute("CREATE TABLE books (title text, author text, genre text, duration int, year int, available int, isbn int, bid int);")
 
-with open('books.csv', 'r') as fin:
-    dr = csv.DictReader(fin)
-    to_db = [(i['title'], i['author'], i['genre'], i['duration'], i['year'], i['available'], i['isbn'], i['bid']) for i in dr]
-cur.executemany("INSERT INTO books ('title', 'author', 'genre', 'duration', 'year', 'available', 'isbn', 'bid') VALUES (?,?,?,?,?,?,?,?);", to_db)
-#con.commit()
-#con.close()
+#LOAD THE CSV INTO PANDAS
+bookData = pd.read_csv('bookData.csv')
+#Write the data to books table
+cur.execute('drop table books')
+bookData.to_sql('books', con, if_exists = 'replace', index=False)
+
+#Create cursor object
+
+for row in cur.execute('select * from books'):
+        print (row)
 
