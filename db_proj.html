@@ -102,6 +102,22 @@ body {
     <input type="text" placeholder="Search All Books..." size="100">
     <input type="checkbox" id="available_cb" name="available_cb">
     <label for="available_cb"> available books</label><br>
+    <select name="sort" id="sort">
+        <option value="default">Sort by...</option>
+        <option value="default">Sort by...</option>
+        <option value="default">Sort by...</option>
+    </select>
+    <button onclick="filter()" class="filter">Filter</button>
+    <div id="myDropdown" class="dropdown-content">
+      <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+      <a href="#about">About</a>
+      <a href="#base">Base</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+      <a href="#custom">Custom</a>
+      <a href="#support">Support</a>
+      <a href="#tools">Tools</a>
+    </div>
 </div>
 
 <div id="sidenav" class="sidenav">
@@ -110,11 +126,19 @@ body {
     <a href="#">Check in</a>
     <a href="#">Check out</a>
     <a href="#">Sign out</a>
-  </div>
+</div>
 
-  <div id="main">
-      <p>[This is where the SQL data will be shown]</p>
-  </div>
+<div id="main">
+    <p>[This is where the SQL data will be shown]</p>
+</div>
+
+<?php
+    $servername = "localhost";
+    $username = "username";
+    $password = "password";
+
+    $conn = new mysqli($servername, $username, $password);
+?>
 
 </body>
 </html>
