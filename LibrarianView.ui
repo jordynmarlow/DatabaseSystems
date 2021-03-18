@@ -66,6 +66,72 @@
      <string>New Account</string>
     </property>
    </widget>
+   <widget class="QLineEdit" name="search_bar">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>441</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="available_books_cb">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>50</y>
+      <width>131</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>available books only</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="sort_combo">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>50</y>
+      <width>171</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>1091</width>
+      <height>571</height>
+     </rect>
+    </property>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>270</number>
+    </attribute>
+    <column>
+     <property name="text">
+      <string>ISBN</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>title</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>author</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>genre</string>
+     </property>
+    </column>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
