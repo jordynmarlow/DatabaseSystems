@@ -90,6 +90,10 @@ body {
   margin-left: 50px;
 }
 
+table, th, td{
+    border: 1px solid black;
+}
+
 </style>
 <script>
     function openNav() {
@@ -109,21 +113,54 @@ body {
 </div>
 
 <div class="search">
-    <input type="text" placeholder="Search All Books..." size="100">
-    <input type="checkbox" id="available_cb" name="available_cb">
-    <label for="available_cb"> available books</label><br>
+   <form>
+        <input type="text" placeholder="Search All Books..." size="100" name = "valueSearch"> 
+        <input type="checkbox" id="available_cb" name="available_cb">
+        <label for="available_cb"> available books</label><br>
+    <form>
 </div>
 
 <div id="sidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">Create an account</a>
+    <a href="signup.php">Create an account</a>
     <a href="#">Check in</a>
     <a href="#">Check out</a>
     <a href="logout.php">Sign out</a>
   </div>
 
   <div id="main">
-      <p>[This is where the SQL data will be shown]</p>
+      
+      <?php
+      if(isset($_POST['valueSearch'])){
+        $search = $_POST['valueSearch'];
+        $sql = "select * from books where CONCAT('title', 'author', 'genre', 'year', 'isbn')  like '%" . $search ."%'";
+        $result = $con -> query($sql);
+  
+        if($result-> num_rows > 0 ){
+            echo "<table><tr><th>Title</th><th>Author</th><th>Genre</th><th>Year</th><th>ISBN</th></tr>";
+            while($row = $result -> fetch_assoc()) {
+                echo "<tr><td>" . $row["title"]. "</td><td>" . $row["author"]. "</td><td>" . $row["genre"]. "</td><td>" . $row["year"]."</td><td>" . $row["isbn"]. "</td></tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "0 results";
+        }
+      } else{
+      $sql = "select * from books";
+      $result = $con -> query($sql);
+
+      if($result-> num_rows > 0 ){
+          echo "<table><tr><th>Title</th><th>Author</th><th>Genre</th><th>Year</th><th>ISBN</th></tr>";
+          while($row = $result -> fetch_assoc()) {
+              echo "<tr><td>" . $row["title"]. "</td><td>" . $row["author"]. "</td><td>" . $row["genre"]. "</td><td>" . $row["year"]."</td><td>" . $row["isbn"]. "</td></tr>";
+          }
+          echo "</table>";
+      } else {
+          echo "0 results";
+      }
+    }
+      ?>
+      
   </div>
 
 </body>
