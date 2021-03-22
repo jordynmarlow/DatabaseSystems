@@ -1,4 +1,3 @@
-# jordyn
 import sys, sqlite3, datetime
 from PyQt5 import uic
 from PyQt5.QtCore import *
@@ -26,10 +25,10 @@ class Database():
     
     def check_credentials(self, username, password):
         self.cursor.execute('select password from users where username=\'%s\'' % username)
-        result = self.cursor.fetchall()[0][0]
+        result = self.cursor.fetchall()
         if result == []:
             return False
-        elif result == password:
+        elif result[0][0] == password:
             return True
         
     def create_account(self, u, p, t, n, e):
@@ -60,6 +59,20 @@ class Database():
     def add_book(self, t, a, g, y, i):
         self.cursor.execute('insert into books (title, author, genre, year, available, isbn) values\
              (\'%s\', \'%s\', \'%s\', %d, 1, %d)' % (t, a, g, y, i))
+    
+    def get_name(self, username):
+        self.cursor.execute('select name from users where username=\'%s\'' % username)
+        return self.cursor.fetchall()[0][0]
+
+    def change_pw(self, username, new_pw):
+        self.cursor.execute('update users set password=\'%s\' where username=\'%s\'' % (new_pw, username))
+
+    def delete_account(self, username):
+        self.cursor.execute('delete from users where username=\'%s\'' % username)
+
+    def get_checked_out_books(self, username):
+        self.cursor.execute('select isbn, title, author, genre, dueDate from checkedOut c inner join books b on c.bid=b.bid where username=\'%s\'' % username)
+        return self.cursor.fetchall()
     
 class CheckOutBook(QDialog):
     def __init__(self):
@@ -134,16 +147,17 @@ class Homepage(QMainWindow):
         user_type = database.get_user_type(self.username)
         if user_type == 'Member':
             uic.loadUi('MemberView.ui', self)
-            self.member_widget_interactions()
+            self.member_init()
         else: 
             uic.loadUi('LibrarianView.ui', self)
-            self.librarian_widget_interactions()
+            self.librarian_init()
             if user_type == 'Librarian':
                 self.new_account_bt.hide()
                 self.add_book_bt.hide()
                 self.delete_book_bt.hide()
         self.widget_interactions()
         self.populate_table()
+        database.con.commit()
         self.show()
     
     def closeEvent(self, event):
@@ -160,17 +174,37 @@ class Homepage(QMainWindow):
         self.search_bt.clicked.connect(self.populate_table)
         self.sign_out_bt.clicked.connect(self.sign_in)
 
-    def member_widget_interactions(self):
+    def member_init(self):
         self.home_bt.clicked.connect(self.show_home_page)
         self.profile_bt.clicked.connect(self.show_profile_page)
+        self.name_lbl.setText('Hello, ' + database.get_name(self.username))
+        self.change_pw_bt.clicked.connect(self.change_pw)
+        self.delete_account_bt.clicked.connect(self.delete_account)
+        self.checked_out_list.setRowCount(0)
+        books = database.get_checked_out_books(self.username)
+        for i in range(0, len(books)):
+            self.checked_out_list.insertRow(i)
+            for j in range(0, 5):
+                item = QTableWidgetItem(str(books[i][j]))
+                item.setFlags(Qt.ItemIsEnabled)
+                self.checked_out_list.setItem(i, j, item)
     
-    def librarian_widget_interactions(self):
+    def librarian_init(self):
         self.check_in_bt.clicked.connect(self.check_in_book)
         self.check_out_bt.clicked.connect(self.check_out_book)
         self.new_account_bt.clicked.connect(self.create_new_account)
         self.add_book_bt.clicked.connect(self.add_book)
         self.delete_book_bt.clicked.connect(self.delete_book)
     
+    def change_pw(self):
+        new_pw, ok = QInputDialog.getText(self, 'Change password', 'Enter your new password: ')
+        if ok:
+            database.change_pw(self.username, new_pw)
+
+    def delete_account(self):
+        database.delete_account(self.username)
+        self.sign_in()
+
     def populate_table(self):
         self.tableWidget.setRowCount(0)
         books = database.get_all_books(self.available_books_cb.isChecked(), self.sort_combo.currentIndex(), self.search_bar.text())
@@ -190,20 +224,24 @@ class Homepage(QMainWindow):
     def add_book(self):
         dlg = AddBook()
         dlg.exec_()
+        self.populate_table()
 
     def delete_book(self):
         bid, ok = QInputDialog.getText(self, 'Delete book', 'Enter the book ID number: ')
         if ok:
             database.delete_book(bid)
+        self.populate_table()
 
     def check_in_book(self):
         bid, ok = QInputDialog.getText(self, 'Check in book', 'Enter the book ID number: ')
         if ok:
             database.check_in_book(bid)
+        self.populate_table()
 
     def check_out_book(self):
         dlg = CheckOutBook()
         dlg.exec_()
+        self.populate_table()
 
     def create_new_account(self):
         dlg = CreateAccount()

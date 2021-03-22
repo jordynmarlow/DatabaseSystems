@@ -179,7 +179,7 @@
      </widget>
     </widget>
     <widget class="QWidget" name="profile">
-     <widget class="QTableWidget" name="tableWidget_2">
+     <widget class="QTableWidget" name="checked_out_list">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -192,7 +192,7 @@
        <number>5</number>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>250</number>
+       <number>200</number>
       </attribute>
       <attribute name="verticalHeaderVisible">
        <bool>false</bool>
@@ -236,7 +236,7 @@
        <string>Checked Out Books</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="delete_account_bt">
       <property name="geometry">
        <rect>
         <x>580</x>
@@ -249,7 +249,7 @@
        <string>Delete Account</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="name_lbl">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -267,7 +267,7 @@
        <string>Hello, name</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="change_pw_bt">
       <property name="geometry">
        <rect>
         <x>440</x>
