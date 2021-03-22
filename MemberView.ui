@@ -72,9 +72,9 @@
      <widget class="QCheckBox" name="available_books_cb">
       <property name="geometry">
        <rect>
-        <x>550</x>
+        <x>560</x>
         <y>10</y>
-        <width>131</width>
+        <width>201</width>
         <height>22</height>
        </rect>
       </property>
@@ -98,7 +98,7 @@
      <widget class="QComboBox" name="sort_combo">
       <property name="geometry">
        <rect>
-        <x>710</x>
+        <x>800</x>
         <y>10</y>
         <width>171</width>
         <height>22</height>
@@ -169,7 +169,7 @@
        <rect>
         <x>460</x>
         <y>10</y>
-        <width>51</width>
+        <width>71</width>
         <height>23</height>
        </rect>
       </property>
@@ -241,7 +241,7 @@
        <rect>
         <x>580</x>
         <y>570</y>
-        <width>101</width>
+        <width>121</width>
         <height>23</height>
        </rect>
       </property>
@@ -270,9 +270,9 @@
      <widget class="QPushButton" name="change_pw_bt">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>420</x>
         <y>570</y>
-        <width>101</width>
+        <width>121</width>
         <height>23</height>
        </rect>
       </property>
@@ -305,7 +305,7 @@
      <x>0</x>
      <y>0</y>
      <width>1114</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
